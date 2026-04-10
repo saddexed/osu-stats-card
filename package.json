@@ -19,6 +19,7 @@
   "homepage": "https://github.com/saddexed/osu-stats-embed#readme",
   "description": "",
   "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/axios": "^0.9.36",
     "@types/node": "^25.0.3",
     "@vercel/node": "^5.5.16",

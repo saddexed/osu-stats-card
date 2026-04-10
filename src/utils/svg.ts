@@ -86,18 +86,18 @@ export function generateSvg(
 
     <style>
       .country-bg { fill: url(#flagPattern); opacity: 0.6; }
-      .username { font: 700 40px 'Segoe UI', Ubuntu, Sans-Serif; fill: #fff; }
-      .rank-value { font: 800 56px 'Segoe UI', Ubuntu, Sans-Serif; fill: #ff66aa; text-anchor: end; font-style: italic; }
-      .sub-info { font: 600 20px 'Segoe UI', Ubuntu, Sans-Serif; fill: #cbd5e1; }
-      .level-text { font: 700 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: #00ddff; text-anchor: middle;}
-      .stat-text { font: 700 26px 'Segoe UI', Ubuntu, Sans-Serif; fill: #ffffffff; font-style: italic; }
+      .username { font-weight: 700; font-size: 40px; font-family: 'Segoe UI', Ubuntu, Sans-Serif; fill: #fff; }
+      .rank-value { font-weight: 800; font-size: 56px; font-family: 'Segoe UI', Ubuntu, Sans-Serif; fill: #ff66aa; text-anchor: end; font-style: italic; }
+      .sub-info { font-weight: 600; font-size: 20px; font-family: 'Segoe UI', Ubuntu, Sans-Serif; fill: #cbd5e1; }
+      .level-text { font-weight: 700; font-size: 18px; font-family: 'Segoe UI', Ubuntu, Sans-Serif; fill: #00ddff; text-anchor: middle;}
+      .stat-text { font-weight: 700; font-size: 26px; font-family: 'Segoe UI', Ubuntu, Sans-Serif; fill: #ffffffff; font-style: italic; }
       .lv-bg { fill: #1d7b89; }
-      .stat-value { font: 700 20px 'Segoe UI', Ubuntu, Sans-Serif; fill: #fff; }
+      .stat-value { font-weight: 700; font-size: 20px; font-family: 'Segoe UI', Ubuntu, Sans-Serif; fill: #fff; }
       .card-bg { fill: #1e293b; opacity: 0.5; }
       .xp-bar-bg { fill: #6a6a6aff; }
       .xp-bar-fill { fill: #00ddff; }
-      .progress { font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: #518f91ff; }
-      .join-date { font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif; fill: #64748b; }
+      .progress { font-weight: 600; font-size: 18px; font-family: 'Segoe UI', Ubuntu, Sans-Serif; fill: #518f91ff; }
+      .join-date { font-weight: 400; font-size: 14px; font-family: 'Segoe UI', Ubuntu, Sans-Serif; fill: #64748b; }
     </style>
 
     <a href="https://osu.ppy.sh/users/${user.user_id}" target="_top">
@@ -110,7 +110,7 @@ export function generateSvg(
       <circle cx="54" cy="54" r="40" fill="#1e1e1e" />
       
       <!-- Avatar Image -->
-      <image x="14" y="14" width="80" height="80" clip-path="url(#avatar-clip)" xlink:href="${avatarUrl}" />
+      <image x="14" y="14" width="80" height="80" clip-path="url(#avatar-clip)" href="${avatarUrl}" />
       
       <!-- Username -->
       <text x="105" y="35" class="username" dominant-baseline="central">${username}</text>
@@ -138,7 +138,7 @@ export function generateSvg(
       <text x="55" y="159" class="stat-text" dominant-baseline="central">${playtime}</text>
 
       <!-- Country Rank -->
-      <image x="425" y="140" width="40" height="40" xlink:href="${flagBase64}" />
+      <image x="425" y="140" width="40" height="40" href="${flagBase64}" />
       <text x="417" y="159" class="stat-text" dominant-baseline="central" text-anchor="end">#${country_rank}</text>
       
       <!-- pp -->
