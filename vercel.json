@@ -4,12 +4,31 @@
     {
       "src": "src/api/[username].ts",
       "use": "@vercel/node"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/api/([^/]+)",
       "dest": "/src/api/[username].ts?username=$1"
+    },
+    {
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/public/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "status": 302,
+      "headers": {
+        "Location": "/"
+      }
     }
   ]
 }

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>osu! Stats Card Generator</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --primary: #ff66aa;
+            --text: #334155;
+            --border: #e2e8f0;
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1 1 350px;
+            max-width: 500px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        input[type="text"] {
+            background: var(--surface);
+            border: 1px solid #cbd5e1;
+            color: var(--text);
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid #cbd5e1;
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: fit-content;
+        }
+
+        button:hover {
+            border-color: #7dd3fc;
+        }
+
+        button.primary {
+            background: var(--surface);
+            border-color: var(--primary);
+            color: var(--text);
+        }
+
+        button.primary:hover {
+            background: #fdf2f8;
+            border-color: #e65c99;
+        }
+
+        #codeOutputContainer {
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            resize: vertical;
+            height: 100px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .preview-container {
+            display: none;
+            justify-content: center;
+            align-items: flex-start;
+            flex: 1 1 400px;
+            max-width: 500px;
+        }
+
+        #previewImage {
+            max-width: 100%;
+            width: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .instructions {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid #cbd5e1;
+            flex: 1 1 100%;
+        }
+
+        .instructions h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .instructions p {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .instructions pre {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            overflow-x: auto;
+            border: 1px solid #cbd5e1;
+            font-size: 0.85rem;
+            font-family: monospace;
+            color: var(--text);
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: 0;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .toggle-btn {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid #cbd5e1;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.8rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            flex: initial;
+            min-width: initial;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background: #e0f2fe;
+            border-color: #7dd3fc;
+            color: #0369a1;
+        }
+
+        .code-block-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .copy-code-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--surface);
+            border: 1px solid #cbd5e1;
+            color: var(--text);
+            padding: 0.2rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.6;
+            flex: initial;
+            min-width: initial;
+        }
+
+        .copy-code-btn:hover {
+            opacity: 1;
+            background: #f1f5f9;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; gap: 1rem; }
+            .card { padding: 1rem; flex: 1 1 100%; max-width: 100%; }
+            .preview-container { flex: 1 1 100%; max-width: 100%; }
+            .buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="input-group">
+                <div class="label-row">
+                    <label for="usernameInput">osu! Username/ID</label>
+                    <div class="toggle-buttons">
+                        <button type="button" class="toggle-btn" id="statsToggleBtn" onclick="toggleBtn('statsToggleBtn', 'statsToggle')">minimal</button>
+                        <button type="button" class="toggle-btn" id="svgToggleBtn" onclick="toggleBtn('svgToggleBtn', 'svgToggle')">SVG</button>
+                    </div>
+                </div>
+                <input type="text" id="usernameInput" placeholder="saddex" autocomplete="off" oninput="updateReadme()" onkeypress="handleKeyPress(event)" />
+                
+                <input type="checkbox" id="statsToggle" style="display: none;" onchange="updateReadme()">
+                <input type="checkbox" id="svgToggle" style="display: none;" onchange="updateReadme()">
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="primary" onclick="generatePreview()">Generate Preview</button>
+                <button type="button" onclick="copyLink()">Copy Link</button>
+            </div>
+            
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+
+        <div class="preview-container" id="previewContainer">
+            <img id="previewImage" alt="osu! Card Preview" />
+        </div>
+
+        <div class="instructions">
+            <h2>README</h2>
+            <p>For Markdown (GitHub, etc.)</p>
+            <div class="code-block-wrapper">
+                <button class="copy-code-btn" onclick="copyCode('readmeCode1', this)">Copy</button>
+                <pre><code id="readmeCode1">[![osu! stats](https://osu-stats-card.vercel.app/api/your_username)](https://osu.ppy.sh/users/your_username)</code></pre>
+            </div>
+            <p>For HTML</p>
+            <div class="code-block-wrapper">
+                <button class="copy-code-btn" onclick="copyCode('readmeCode2', this)">Copy</button>
+                <pre><code id="readmeCode2"></code></pre>
+            </div>
+            <p>For Discord (Image links auto embed dumbass, svgs don't tho.)</p>
+            <div class="code-block-wrapper">
+                <button class="copy-code-btn" onclick="copyCode('readmeCode3', this)">Copy</button>
+                <pre><code id="readmeCode3"></code></pre>
+            </div>
+            <p>SVG is faster to render and better quality than PNG, use it when possible</p>
+            <p>If you're using this for a GitHub profile, use the SVG version</p>
+        </div>
+    </div>
+
+    <script>
+        const baseUrl = window.location.origin;
+
+        function buildUrl() {
+            const rawUsername = document.getElementById('usernameInput').value.trim();
+            const username = rawUsername || "saddex";
+
+            const noStats = document.getElementById('statsToggle').checked;
+            const hasSvg = document.getElementById('svgToggle').checked;
+
+            let url = `${baseUrl}/api/${encodeURIComponent(username)}?`;
+            
+            // Only add parameters if they deviate from API defaults
+            const params = new URLSearchParams();
+            if (noStats) params.append('stats', 'minimal');
+            if (hasSvg) params.append('svg', 'true');
+
+            const paramString = params.toString();
+            if (paramString) url += paramString;
+            else url = url.slice(0, -1); // remove trailing ?
+
+            return url;
+        }
+
+        function toggleBtn(btnId, checkboxId) {
+            const cb = document.getElementById(checkboxId);
+            cb.checked = !cb.checked;
+            document.getElementById(btnId).classList.toggle('active', cb.checked);
+            updateReadme();
+        }
+
+        function updateReadme() {
+            const rawUsername = document.getElementById('usernameInput').value.trim();
+            const username = rawUsername || "saddex";
+            
+            // Build hypothetical URL for readme
+            const noStats = document.getElementById('statsToggle').checked;
+            const hasSvg = document.getElementById('svgToggle').checked;
+
+            let url = `${baseUrl}/api/${encodeURIComponent(username)}?`;
+            const params = new URLSearchParams();
+            if (noStats) params.append('stats', 'minimal');
+            if (hasSvg) params.append('svg', 'true');
+            const paramString = params.toString();
+            if (paramString) url += paramString;
+            else url = url.slice(0, -1);
+
+            const markdown = `[![osu! stats](${url})](https://osu.ppy.sh/users/${encodeURIComponent(username)})`;
+            const htmlCode = `<a href="https://osu.ppy.sh/users/${encodeURIComponent(username)}">\n  <img src="${url}" alt="osu! stats" />\n</a>`;
+            const discordCode = url;
+            
+            document.getElementById('readmeCode1').textContent = markdown;
+            document.getElementById('readmeCode2').textContent = htmlCode;
+            document.getElementById('readmeCode3').textContent = discordCode;
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                generatePreview();
+            }
+        }
+
+        window.onload = updateReadme;
+
+        async function generatePreview() {
+            const url = buildUrl();
+
+            const container = document.getElementById('previewContainer');
+            const img = document.getElementById('previewImage');
+            const errorMsg = document.getElementById('errorMessage');
+            
+            errorMsg.style.display = 'none';
+            container.style.display = 'none';
+            
+            try {
+                // Verify the user exists before showing preview
+                const res = await fetch(url);
+                if (!res.ok) {
+                    if (res.status === 404) {
+                        errorMsg.textContent = 'Error: User does not exist.';
+                    } else {
+                        errorMsg.textContent = 'Error: Failed to generate card.';
+                    }
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                
+                img.src = url;
+                container.style.display = 'flex';
+            } catch (e) {
+                errorMsg.textContent = 'Error connecting to the API.';
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        async function copyLink() {
+            const url = buildUrl();
+
+            const errorMsg = document.getElementById('errorMessage');
+            errorMsg.style.display = 'none';
+            
+            try {
+                const res = await fetch(url);
+                if (!res.ok && res.status === 404) {
+                    errorMsg.textContent = 'Error: User does not exist.';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+
+                await navigator.clipboard.writeText(url);
+                alert('Copied link to clipboard!');
+            } catch (err) {
+                prompt('Copy the URL below:', url);
+            }
+        }
+
+        async function copyCode(elementId, btn) {
+            const code = document.getElementById(elementId).textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => { btn.textContent = originalText; }, 2000);
+            } catch (err) {
+                alert('Failed to copy code to clipboard');
+            }
+        }
+    </script>
+</body>
+</html>
