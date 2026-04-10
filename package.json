@@ -1,5 +1,5 @@
 {
-  "name": "osu-stats-embed",
+  "name": "osu-stats-card",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/saddexed/osu-stats-embed.git"
+    "url": "git+https://github.com/saddexed/osu-stats-card.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/saddexed/osu-stats-embed/issues"
+    "url": "https://github.com/saddexed/osu-stats-card/issues"
   },
-  "homepage": "https://github.com/saddexed/osu-stats-embed#readme",
+  "homepage": "https://github.com/saddexed/osu-stats-card#readme",
   "description": "",
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",

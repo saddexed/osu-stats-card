@@ -1,9 +1,9 @@
-# osu! Stats Embed
+# osu! Stats Card
 
 ![typescript](https://img.shields.io/badge/typescript-lightgrey?style=typescript&logo=typescript)
-![License](https://img.shields.io/github/license/saddexed/osu-stats-embed)
+![License](https://img.shields.io/github/license/saddexed/osu-stats-card)
 
-[![osu! stats](https://osu-stats-embed.vercel.app/api/saddex)](https://osu.ppy.sh/users/saddex)  
+[![osu! stats](https://osu-stats-card.vercel.app/api/saddex)](https://osu.ppy.sh/users/saddex)  
 A serverless API that generates dynamic stat cards for osu! players. Perfect for displaying your osu! stats on GitHub profiles (why would you want to do that huh), websites, or anywhere you want really.
 
 ## Features
@@ -19,13 +19,17 @@ A serverless API that generates dynamic stat cards for osu! players. Perfect for
 
 Add this to your GitHub README or any markdown file:
 ```md
-[![osu! stats](https://osu-stats-embed.vercel.app/api/your_username)](https://osu.ppy.sh/users/your_username)
+[![osu! stats](https://osu-stats-card.vercel.app/api/your_username)](https://osu.ppy.sh/users/your_username)
+```
+for example
+```md
+[![osu! stats](https://osu-stats-card.vercel.app/api/saddex)](https://osu.ppy.sh/users/saddex)
 ```
 
 ### URL Format
 
 ```
-https://osu-stats-embed.vercel.app/api/{username}
+https://osu-stats-card.vercel.app/api/{username}
 ```
 
 ## Customization Options
@@ -38,11 +42,20 @@ Control which stats are displayed using query parameters:
 | `svg` | `false` | Return raw SVG format instead of PNG image. |
 
 ```
-/api/elirif?stats=false
+/api/elirif?stats=minimal
 ```
-[![osu! stats](https://osu-stats-embed.vercel.app/api/elirif?stats=false)](https://osu.ppy.sh/users/elirif)
+[![osu! stats](https://osu-stats-card.vercel.app/api/elirif?stats=minimal)](https://osu.ppy.sh/users/elirif)
+```
+/api/altbalaji
+```
+[![osu! stats](https://osu-stats-card.vercel.app/api/altbalaji)](https://osu.ppy.sh/users/altbalaji)
 
-## Deployment
+```markdown
+> **Note:** SVG renders faster than images. Use `?svg=true` when possible for better performance.
+```
+
+
+## Development (Skip if you just want to use it)
 
 ### Prerequisites
 
@@ -54,8 +67,8 @@ Control which stats are displayed using query parameters:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/saddexed/osu-stats-embed.git
-cd osu-stats-embed
+git clone https://github.com/saddexed/osu-stats-card.git
+cd osu-stats-card
 ```
 
 2. Install dependencies:
